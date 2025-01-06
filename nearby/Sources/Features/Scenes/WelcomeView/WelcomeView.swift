@@ -20,6 +20,8 @@ class WelcomeView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Boas vindas ao Nearby!"
+        label.numberOfLines = 0
+        label.font = Typography.titleXL
         return label
     }()
     
@@ -27,6 +29,17 @@ class WelcomeView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Tenha cupons de vantagens para usar em seus estabelicimentos favoritos."
+        label.font = Typography.textMD
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private let subTextForTipsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.text = "Veja como funciona:"
+        label.font = Typography.textMD
         return label
     }()
     
@@ -34,7 +47,7 @@ class WelcomeView: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = 24
         return stackView
     }()
     
@@ -43,6 +56,7 @@ class WelcomeView: UIView {
         button.setTitle("Começar", for: .normal)
         button.backgroundColor = Colors.greenBase
         button.setTitleColor(Colors.gray100, for: .normal)
+        button.titleLabel?.font = Typography.action
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 8
         return button
@@ -51,6 +65,7 @@ class WelcomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupTips()
     }
     
     required init?(coder: NSCoder) {
@@ -61,6 +76,7 @@ class WelcomeView: UIView {
         addSubview(logoImageView)
         addSubview(welcomeLabel)
         addSubview(descriptitonLabel)
+        addSubview(subTextForTipsLabel)
         addSubview(tipsStackView)
         addSubview(startButton)
         setupConstraints()
@@ -88,12 +104,16 @@ class WelcomeView: UIView {
             logoImageView.heightAnchor.constraint(equalToConstant: 48),
             
             welcomeLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 24),
-            welcomeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
+            welcomeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             
-            descriptitonLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 8),
+            descriptitonLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 16),
             descriptitonLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
+            descriptitonLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
             
-            tipsStackView.topAnchor.constraint(equalTo: descriptitonLabel.bottomAnchor, constant: 24),
+            subTextForTipsLabel.topAnchor.constraint(equalTo: descriptitonLabel.bottomAnchor, constant: 24),
+            subTextForTipsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            
+            tipsStackView.topAnchor.constraint(equalTo: subTextForTipsLabel.bottomAnchor, constant: 24),
             tipsStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             tipsStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
             
