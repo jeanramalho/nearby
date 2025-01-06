@@ -62,6 +62,7 @@ class WelcomeView: UIView {
         addSubview(welcomeLabel)
         addSubview(descriptitonLabel)
         addSubview(tipsStackView)
+        addSubview(startButton)
         setupConstraints()
     }
     
@@ -81,24 +82,25 @@ class WelcomeView: UIView {
     
     private func setupConstraints(){
         NSLayoutConstraint.activate([
-            logoImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 4),
-            logoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4),
+            logoImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            logoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             logoImageView.widthAnchor.constraint(equalToConstant: 48),
             logoImageView.heightAnchor.constraint(equalToConstant: 48),
             
-            welcomeLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 8),
-            welcomeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 4),
+            welcomeLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 24),
+            welcomeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
             
-            descriptitonLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 4),
-            descriptitonLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
+            descriptitonLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 8),
+            descriptitonLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             
-            tipsStackView.topAnchor.constraint(equalTo: descriptitonLabel.bottomAnchor, constant: 8),
-            tipsStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-            tipsStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
+            tipsStackView.topAnchor.constraint(equalTo: descriptitonLabel.bottomAnchor, constant: 24),
+            tipsStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
+            tipsStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
             
-            startButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 8),
-            startButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-            startButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8)
+            startButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -24),
+            startButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
+            startButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+            startButton.heightAnchor.constraint(equalToConstant: 56)
         ])
     }
 }
