@@ -8,7 +8,7 @@ import Foundation
 
 struct Place: Decodable {
     let imageName: String
-    let title: String
+    let name: String
     let description: String
     let coupons: Int
     let latitude: Double

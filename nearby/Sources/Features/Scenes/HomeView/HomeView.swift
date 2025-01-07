@@ -10,6 +10,10 @@ import MapKit
 
 class HomeView: UIView {
     
+    private var filterButtonAction: ((Category) -> Void)?
+    private var categories: [Category] = []
+    private var selectedButton: UIButton?
+    
     let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
@@ -133,5 +137,75 @@ class HomeView: UIView {
             placesTableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
             
         ])
+    }
+    
+    func configureTableViewDelegate(_ delegate: UITableViewDelegate, dataSource: UITableViewDataSource){
+        placesTableView.delegate = delegate
+        placesTableView.dataSource = dataSource
+    }
+    
+    func updateFilterButtons(with categories: [Category], action: @escaping (Category) -> Void ){
+        let categoryIcons: [String : String] = [
+            "Alimentação":"fork.knife",
+            "Compras":"cart",
+            "Hospedagem":"bed.double",
+            "Padaria":"cup.and.saucer"
+        ]
+        
+        self.categories = categories
+        self.filterButtonAction = action
+        
+        for (index, category) in categories.enumerated() {
+            let iconName = categoryIcons[category.name] ?? "questionmark.circle"
+            let button = createFilterButton(title: category.name, iconName: iconName)
+            button.tag = index
+            button.addTarget(self, action: #selector(filterButtonTapped(_:)), for: .touchUpInside)
+            filterStackView.addArrangedSubview(button)
+        }
+        
+    }
+    
+    private func createFilterButton(title: String, iconName: String) -> UIButton {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(title, for: .normal)
+        button.setImage(UIImage(systemName: iconName), for: .normal)
+        button.layer.cornerRadius = 8
+        button.tintColor = Colors.gray600
+        button.backgroundColor = Colors.gray100
+        button.setTitleColor(Colors.gray600, for: .normal)
+        button.titleLabel?.font = Typography.textSM
+        button.heightAnchor.constraint(equalToConstant: 36).isActive = true
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.heightAnchor.constraint(equalToConstant: 13).isActive = true
+        button.imageView?.widthAnchor.constraint(equalToConstant: 13).isActive = true
+        button.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 8)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        
+        filterStackView.isLayoutMarginsRelativeArrangement = true
+        filterStackView.layoutMargins = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
+        
+        return button
+    }
+    
+    private func uptadeButtonSelection(button: UIButton){
+        if let previousButton = selectedButton {
+            previousButton.backgroundColor = Colors.gray100
+            previousButton.setTitleColor(Colors.gray600, for: .normal)
+            previousButton.tintColor = Colors.gray600
+        }
+        
+        button.backgroundColor = Colors.greenBase
+        button.setTitleColor(Colors.gray100, for: .normal)
+        button.tintColor = Colors.gray100
+        
+        selectedButton = button
+    }
+    
+    @objc
+    private func filterButtonTapped(_ sender: UIButton){
+        let selectedCategory = categories[sender.tag]
+        uptadeButtonSelection(button: sender)
+        filterButtonAction?(selectedCategory)
     }
 }
