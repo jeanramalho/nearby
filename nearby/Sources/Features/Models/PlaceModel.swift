@@ -6,8 +6,15 @@
 //
 import Foundation
 
-struct Place {
+struct Place: Decodable {
     let imageName: String
     let title: String
     let description: String
+    let coupons: Int
+    let latitude: Double
+    let longitude: Double
+    let adress: String
+    let phone: String
+    let cover: String
+    let categoryId: String
 }
