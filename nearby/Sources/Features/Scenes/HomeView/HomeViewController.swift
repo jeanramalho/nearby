@@ -27,6 +27,15 @@ class HomeViewController: UIViewController {
                 self.filterPlaces(by: selectedCategory)
             }
         }
+        
+        self.addAnnotationsToMap()
+        homeViewModel.didUpdatePlaces = { [weak self] in
+            DispatchQueue.main.async {
+                self?.places = self?.homeViewModel.places ?? []
+                self?.homeView.reloadTableViewData()
+                self?.addAnnotationsToMap()
+            }
+        }
     }
     
     private func defineInitialLocation(){
@@ -35,10 +44,10 @@ class HomeViewController: UIViewController {
     }
     
     private func addAnnotationsToMap(){
-        homeView.mapView.removeAnnotation(homeView.mapView.annotations)
+        homeView.mapView.removeAnnotations(homeView.mapView.annotations)
         let annotations = places.map {PlaceAnnotation(place: $0)}
         
-        homeView.mapView.addAnnotation(annotations)
+        homeView.mapView.addAnnotations(annotations)
         if let firstAnnotation = annotations.first {
             homeView.mapView.setRegion(MKCoordinateRegion(center: firstAnnotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: true)
         }

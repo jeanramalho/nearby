@@ -92,6 +92,8 @@ class HomeView: UIView {
         containerView.addSubview(dragIndicatorView)
         containerView.addSubview(descriptionLabel)
         containerView.addSubview(placesTableView)
+        
+        setupPanGesture()
         setupConstraints()
     }
     
@@ -142,6 +144,11 @@ class HomeView: UIView {
     func configureTableViewDelegate(_ delegate: UITableViewDelegate, dataSource: UITableViewDataSource){
         placesTableView.delegate = delegate
         placesTableView.dataSource = dataSource
+    }
+    
+    func setupPanGesture(){
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        containerView.addGestureRecognizer(panGesture)
     }
     
     func updateFilterButtons(with categories: [Category], action: @escaping (Category) -> Void ){
@@ -207,5 +214,42 @@ class HomeView: UIView {
         let selectedCategory = categories[sender.tag]
         uptadeButtonSelection(button: sender)
         filterButtonAction?(selectedCategory)
+    }
+    
+    func reloadTableViewData(){
+        DispatchQueue.main.async {
+            self.placesTableView.reloadData()
+        }
+    }
+    
+    @objc
+    private func handlePanGesture(_ gesture: UIPanGestureRecognizer){
+        let translation = gesture.translation(in: self)
+        let velocity = gesture.velocity(in: self)
+        
+        switch gesture.state {
+        case .changed:
+            let newConstant = containerTopConstraints.constant + translation.y
+            if newConstant <= 0 && newConstant >= frame.height * 0.5 {
+                containerTopConstraints.constant = newConstant
+                gesture.setTranslation(.zero, in: self)
+            }
+        case .ended:
+            let halfScreenHeight = -frame.height * 0.25
+            let finalPosition: CGFloat
+            
+            if velocity.y > 0 {
+                finalPosition = 0
+            } else {
+                finalPosition = halfScreenHeight
+            }
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.containerTopConstraints.constant = finalPosition
+                self.layoutIfNeeded()
+            })
+        default:
+            break
+        }
     }
 }
