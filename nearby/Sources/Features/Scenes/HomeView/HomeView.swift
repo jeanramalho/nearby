@@ -17,6 +17,7 @@ class HomeView: UIView {
     let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.mapType = .standard
         return mapView
     }()
     
@@ -83,6 +84,7 @@ class HomeView: UIView {
     private var containerTopConstraints: NSLayoutConstraint!
     
     private func setupUI(){
+        
         addSubview(mapView)
         addSubview(filterScrollView)
         addSubview(containerView)
