@@ -34,6 +34,16 @@ class HomeViewController: UIViewController {
         homeView.mapView.setRegion(MKCoordinateRegion(center: initialLocation, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)), animated: false)
     }
     
+    private func addAnnotationsToMap(){
+        homeView.mapView.removeAnnotation(homeView.mapView.annotations)
+        let annotations = places.map {PlaceAnnotation(place: $0)}
+        
+        homeView.mapView.addAnnotation(annotations)
+        if let firstAnnotation = annotations.first {
+            homeView.mapView.setRegion(MKCoordinateRegion(center: firstAnnotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: true)
+        }
+    }
+    
     private func filterPlaces(by category: Category){
         let currentCenter = homeView.mapView.region.center
         homeViewModel.fetchPlaces(for: category.id, userLocation: currentCenter)
