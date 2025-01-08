@@ -7,13 +7,13 @@
 import Foundation
 
 struct Place: Decodable {
-    let imageName: String
+    let id: String
     let name: String
     let description: String
     let coupons: Int
     let latitude: Double
     let longitude: Double
-    let adress: String
+    let address: String
     let phone: String
     let cover: String
     let categoryId: String

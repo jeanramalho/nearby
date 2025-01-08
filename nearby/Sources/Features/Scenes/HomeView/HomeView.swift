@@ -107,7 +107,7 @@ class HomeView: UIView {
             filterScrollView.topAnchor.constraint(equalTo: self.topAnchor, constant: 48),
             filterScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             filterScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            filterScrollView.heightAnchor.constraint(equalToConstant: 86),
+            filterScrollView.heightAnchor.constraint(equalToConstant: 46),
             
             containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
